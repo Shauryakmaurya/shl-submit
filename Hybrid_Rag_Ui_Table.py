@@ -94,44 +94,6 @@ def call_llama(prompt):
     response = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=data)
     return response.json()["choices"][0]["message"]["content"]
 
-# def format_table(results):
-#     df = pd.DataFrame(results)
-#     df["Remote"] = df["remote_testing"].apply(lambda x: "✅" if x else "❌")
-#     df["Adaptive/IRT"] = df["adaptive_irt"].apply(lambda x: "✅" if x else "❌")
-#     df["URL"] = df["url"].apply(lambda x: f'<a href="{x}" target="_blank" style="color: #4fa3f7; text-decoration: underline">Link</a>')
-#     df = df[["title", "test_type", "duration", "Remote", "Adaptive/IRT", "URL"]].rename(columns={
-#         "title": "Title",
-#         "test_type": "Test Type",
-#         "duration": "Duration (min)"
-#     })
-#     return df.to_html(escape=False, index=False, classes="styled-table")
-# def format_table(results):
-#         df = pd.DataFrame(results)
-#         df["Remote"] = df["remote_testing"].apply(lambda x: "✅" if x else "❌")
-#         df["Adaptive/IRT"] = df["adaptive_irt"].apply(lambda x: "✅" if x else "❌")
-#         df["URL"] = df["url"].apply(lambda x: f'<a href="{x}" target="_blank" style="color:#4fa3f7;text-decoration:underline;">Link</a>')
-#         df = df[["title", "test_type", "duration", "Remote", "Adaptive/IRT", "URL"]].rename(columns={
-#             "title": "Title",
-#             "test_type": "Test Type",
-#             "duration": "Duration (min)"
-#         })
-#         return df
-# def format_table(results):
-#     if not results:
-#         return pd.DataFrame()  # Return empty DataFrame if no results
-
-#     df = pd.DataFrame(results)
-#     df["Remote"] = df["remote_testing"].apply(lambda x: "✅" if x else "❌")
-#     df["Adaptive/IRT"] = df["adaptive_irt"].apply(lambda x: "✅" if x else "❌")
-#     df["URL"] = df["url"].apply(lambda x: f"https://{x}" if not x.startswith("http") else x)
-    
-#     df = df[["title", "test_type", "duration", "Remote", "Adaptive/IRT", "URL"]].rename(columns={
-#         "title": "Title",
-#         "test_type": "Test Type",
-#         "duration": "Duration (min)"
-#     })
-
-#     return df
 def format_table(results):
     if not results:
         return pd.DataFrame()
@@ -155,41 +117,6 @@ def format_table(results):
     return df
 
 
-# def query_rag_system(query):
-#     # def format_table(results):
-#     #     df = pd.DataFrame(results)
-#     #     df["Remote"] = df["remote_testing"].apply(lambda x: "✅" if x else "❌")
-#     #     df["Adaptive/IRT"] = df["adaptive_irt"].apply(lambda x: "✅" if x else "❌")
-#     #     df["URL"] = df["url"].apply(lambda x: f'<a href="{x}" target="_blank" style="color:#4fa3f7;text-decoration:underline;">Link</a>')
-#     #     df = df[["title", "test_type", "duration", "Remote", "Adaptive/IRT", "URL"]].rename(columns={
-#     #         "title": "Title",
-#     #         "test_type": "Test Type",
-#     #         "duration": "Duration (min)"
-#     #     })
-#     #     return df
-#     def query_rag_system(query):
-#     top_meta, top_docs = hybrid_search(query)
-#     context = "\n\n".join(top_docs)
-#     prompt = f"Here is the context of available SHL tests:\n\n{context}\n\nBased on this, suggest the most relevant assessments for the following job description or query:\n{query}"
-#     llama_response = call_llama(prompt)
-
-#     return format_table(top_meta), llama_response
-
-
-    # top_meta, top_docs = hybrid_search(query)
-    # context = "\n\n".join(top_docs)
-    # prompt = f"Here is the context of available SHL tests:\n\n{context}\n\nBased on this, suggest the most relevant assessments for the following job description or query:\n{query}"
-    # llama_response = call_llama(prompt)
-    # print("\nTop Matches:")
-    # print(format_table(top_meta).to_markdown(index=False))
-
-    # # print(pd.read_html(format_table(top_meta))[0].to_markdown(index=False))
-    # print("\nLLaMA Suggestion:")
-    # print(llama_response)
-    # return format_table(top_meta), llama_response
-
-# Example usage
-# query_rag_system("Looking for a test to assess civil engineering graduates with aptitude in transportation and water resources")
 def query_rag_system(query):
     top_meta, top_docs = hybrid_search(query)
     context = "\n\n".join(top_docs)
